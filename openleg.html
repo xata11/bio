@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Random Redirect</title>
     <!-- Meta refresh to provide a fallback in case JavaScript is disabled -->
-    <meta http-equiv="refresh" content="2;url=https://sabigirl.pages.dev/kamu.html">
+    <meta http-equiv="refresh" content="2;url=https://example.com/page1">
     <script type="text/javascript">
         // Array of URLs to redirect to
         var urls = [
-            'https://sabigirl.pages.dev/woro.html,
-            'https://sabigirl.pages.dev/kiki.html',
-            'https://sabigirl.pages.dev/kamu.html'
+            'https://example.com/page1',
+            'https://example.com/page2',
+            'https://example.com/page3'
         ];
 
         // Function to redirect to a random URL
@@ -20,7 +20,7 @@
             window.location.href = urls[randomIndex];
         }
 
-        // Call the function immediately upon page load
+        // Call the function immediately upon script execution
         randomRedirect();
     </script>
 </head>
