@@ -37,13 +37,13 @@
 
             // Check if the time in Ghana is between 12:00 AM and 5:00 AM
             if (hours === 0 || (hours >= 1 && hours < 5)) {
-                // Select a random URL from the array
-                const randomUrl = randomUrls[Math.floor(Math.random() * randomUrls.length)];
-                // Perform an instant redirect to the selected random URL
-                window.location.replace(randomUrl);
+                // Select a random index from the array
+                const randomIndex = Math.floor(Math.random() * randomUrls.length);
+                // Redirect to the selected random URL
+                window.location.href = randomUrls[randomIndex];
             } else {
-                // Perform an instant redirect to another URL if it is not between 12 AM and 5 AM
-                window.location.replace("https://example.com/not-midnight");
+                // Redirect to another URL if it is not between 12 AM and 5 AM
+                window.location.href = "https://example.com/not-midnight";
             }
         }
 
