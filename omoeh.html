@@ -23,12 +23,12 @@
             // Echo the current time in Ghana time zone
             console.log(`Current time in Ghana (Africa/Accra): ${timeString}`);
             
-            // Check if the time in Ghana is exactly 12:00 AM
-            if (hours === 0 && minutes === 0 && seconds === 0) {
-                // Redirect to the specific URL for midnight
+            // Check if the time in Ghana is between 12:00 AM and 5:00 AM
+            if (hours === 0 || (hours >= 1 && hours < 5)) {
+                // Redirect to the specific URL for midnight to 5 AM
                 window.location.href = "https://example.com/midnight";
             } else {
-                // Redirect to another URL if it is not midnight
+                // Redirect to another URL if it is not between 12 AM and 5 AM
                 window.location.href = "https://example.com/not-midnight";
             }
         }
