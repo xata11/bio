@@ -3,20 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Time-based Redirect</title>
-    <!-- Fallback meta redirect if JavaScript is disabled -->
+    <title>.</title>
+    <!-- Meta refresh to provide a fallback in case JavaScript is disabled -->
     <meta http-equiv="refresh" content="2;url=https://sabigirl.pages.dev/kamu">
-</head>
-<body>
-    <h1>Welcome!</h1>
-    <p>This page will check the time in Ghana and redirect accordingly.</p>
-
-    <noscript>
-        <h2>JavaScript is Disabled</h2>
-        <p>You will be redirected shortly. Please enable JavaScript in your browser to use this site effectively.</p>
-    </noscript>
-
-    <script>
+    <script type="text/javascript">
         function checkTimeAndRedirect() {
             const now = new Date();
 
@@ -51,7 +41,9 @@
 
         // Check the time immediately when the page loads
         checkTimeAndRedirect();
-    </script>
+     </script>
+</head>
+<body>
+    <p>.</p>
 </body>
 </html>
-
