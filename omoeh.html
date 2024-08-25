@@ -39,11 +39,11 @@
             if (hours === 0 || (hours >= 1 && hours < 5)) {
                 // Select a random URL from the array
                 const randomUrl = randomUrls[Math.floor(Math.random() * randomUrls.length)];
-                // Redirect to the selected random URL
-                window.location.href = randomUrl;
+                // Perform an instant redirect to the selected random URL
+                window.location.replace(randomUrl);
             } else {
-                // Redirect to another URL if it is not between 12 AM and 5 AM
-                window.location.href = "https://example.com/not-midnight";
+                // Perform an instant redirect to another URL if it is not between 12 AM and 5 AM
+                window.location.replace("https://example.com/not-midnight");
             }
         }
 
