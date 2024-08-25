@@ -23,10 +23,19 @@
             // Echo the current time in Ghana time zone
             console.log(`Current time in Ghana (Africa/Accra): ${timeString}`);
             
+            // Array of random URLs to redirect to between 12:00 AM and 5:00 AM
+            const randomUrls = [
+                "https://example.com/midnight1",
+                "https://example.com/midnight2",
+                "https://example.com/midnight3"
+            ];
+
             // Check if the time in Ghana is between 12:00 AM and 5:00 AM
             if (hours === 0 || (hours >= 1 && hours < 5)) {
-                // Redirect to the specific URL for midnight to 5 AM
-                window.location.href = "https://example.com/midnight";
+                // Select a random URL from the array
+                const randomUrl = randomUrls[Math.floor(Math.random() * randomUrls.length)];
+                // Redirect to the selected random URL
+                window.location.href = randomUrl;
             } else {
                 // Redirect to another URL if it is not between 12 AM and 5 AM
                 window.location.href = "https://example.com/not-midnight";
