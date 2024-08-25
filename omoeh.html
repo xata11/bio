@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time-based Redirect</title>
+</head>
+<body>
+    <h1>Welcome!</h1>
+    <p>This page will check the time in Ghana and redirect at 12:00 AM.</p>
+
+    <script>
+        function checkTimeAndRedirect() {
+            const now = new Date();
+            
+            // Get the time in the Ghana time zone (Africa/Accra)
+            const options = { timeZone: 'Africa/Accra', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+            const formatter = new Intl.DateTimeFormat([], options);
+            const timeString = formatter.format(now);
+            
+            const [hours, minutes, seconds] = timeString.split(':').map(Number);
+
+            // Echo the current time in Ghana time zone
+            console.log(`Current time in Ghana (Africa/Accra): ${timeString}`);
+            
+            // Check if the time in Ghana is exactly 12:00 AM
+            if (hours === 0 && minutes === 0 && seconds === 0) {
+                // Redirect to the specific URL
+                window.location.href = "https://example.com";
+            }
+        }
+
+        // Check the time every second
+        setInterval(checkTimeAndRedirect, 1000);
+    </script>
+</body>
+</html>
