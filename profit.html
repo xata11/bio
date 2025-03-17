@@ -29,6 +29,10 @@
             return parseFloat(value.replace(/,/g, '')) || 0;
         }
         
+        function formatNumber(value) {
+            return value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+        
         function calculateProfit() {
             let adSpend = parseNumber(document.getElementById('adSpend').value);
             let revenueUSD = parseNumber(document.getElementById('revenue').value);
@@ -40,7 +44,7 @@
             let profitPercentage = (adSpend > 0) ? (netProfit / adSpend) * 100 : 0;
             
             document.getElementById('output').innerHTML = `
-                <p><strong>Net Profit:</strong> ₦${netProfit.toFixed(2)}</p>
+                <p><strong>Net Profit:</strong> ₦${formatNumber(netProfit)}</p>
                 <p><strong>Net Profit Margin:</strong> ${netProfitMargin.toFixed(2)}%</p>
                 <p><strong>Profit Percentage:</strong> ${profitPercentage.toFixed(2)}%</p>
             `;
