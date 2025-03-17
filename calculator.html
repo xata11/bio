@@ -6,49 +6,54 @@
         body { 
             font-family: Arial, sans-serif; 
             text-align: center; 
-            margin-top: 50px; 
+            margin: 50px auto;
             background-color: #f4f4f4;
         }
         .container {
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            gap: 50px;
-            max-width: 90%;
+            display: flex; 
+            justify-content: center; 
+            align-items: flex-start; 
+            flex-wrap: wrap;
+            gap: 20px;
+            max-width: 95%;
             margin: auto;
         }
-        .calculator {
-            width: 45%;
+        .box {
+            width: 30%;
             background: white;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
-        input, button {
-            margin: 5px;
-            padding: 10px;
-            width: 90%;
+        input {
+            margin: 5px; 
+            padding: 8px; 
+            width: 90%; 
             border: 1px solid #ccc;
             border-radius: 5px;
         }
         button {
+            padding: 10px; 
+            width: 100%;
             background-color: #28a745;
             color: white;
             border: none;
             cursor: pointer;
             transition: background 0.3s;
+            border-radius: 5px;
         }
         button:hover {
             background-color: #218838;
         }
-        table {
-            margin: 10px auto;
+        table { 
+            margin: 10px auto; 
             border-collapse: collapse;
             width: 100%;
         }
-        th, td {
-            padding: 10px;
-            border: 1px solid black;
+        th, td { 
+            padding: 10px; 
+            border: 1px solid black; 
             text-align: center;
         }
         .divider {
@@ -56,6 +61,17 @@
             background: #ccc;
             height: auto;
             border-radius: 5px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .box {
+                width: 90%;
+            }
         }
     </style>
 </head>
@@ -65,7 +81,7 @@
 
     <div class="container">
         <!-- Single Ad Account Calculator -->
-        <div class="calculator">
+        <div class="box">
             <h2>Single Ad Account Calculator</h2>
             <label>Ad Spend (₦): </label>
             <input type="number" id="singleAdSpend" placeholder="Enter Ad Spend" /><br/>
@@ -87,7 +103,7 @@
         <div class="divider"></div>
 
         <!-- Multiple Ad Accounts Calculator -->
-        <div class="calculator">
+        <div class="box">
             <h2>Multiple Ad Accounts Calculator</h2>
             <table id="adAccountsTable">
                 <tr>
@@ -114,8 +130,65 @@
             <h3 id="multiResult"></h3>
             <h3 id="multiProfitPercentage"></h3>
         </div>
-    </div>
+    
 
+
+ <!-- Profit Margin Calculator -->
+        <div class="box">
+<h2>Profit Margin Calculator</h2>
+    <label>Ad Spend (₦): </label>
+    <input type="text" id="adSpendUnique" placeholder="Enter amount in Naira"><br>
+    
+    <label>Revenue from Monetag ($): </label>
+    <input type="text" id="revenueUnique" placeholder="Enter revenue in USD"><br>
+    
+    <label>Exchange Rate (₦ per $): </label>
+    <input type="text" id="exchangeRateUnique" value="1500"><br>
+    
+    <button onclick="calculateProfitUnique()">Calculate</button>
+    
+    <div class="result" id="outputUnique"></div>
+
+
+              </div>
+    </div>
+    
+    <script>
+        function parseNumberUnique(value) {
+            return parseFloat(value.replace(/,/g, '')) || 0;
+        }
+        
+        function formatNumberUnique(value) {
+            return value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+        
+        function calculateProfitUnique() {
+            let adSpend = parseNumberUnique(document.getElementById('adSpendUnique').value);
+            let revenueUSD = parseNumberUnique(document.getElementById('revenueUnique').value);
+            let exchangeRate = parseNumberUnique(document.getElementById('exchangeRateUnique').value);
+            
+            let revenueNGN = revenueUSD * exchangeRate;
+            let netProfit = revenueNGN - adSpend;
+            let netProfitMargin = (revenueNGN > 0) ? (netProfit / revenueNGN) * 100 : 0;
+            let profitPercentage = (adSpend > 0) ? (netProfit / adSpend) * 100 : 0;
+            
+            document.getElementById('outputUnique').innerHTML = `
+                <p style="display: none;"><strong>Net Profit Margin:</strong> ${netProfitMargin.toFixed(2)}%</p>
+                <p><strong>Profit Percentage:</strong> ${profitPercentage.toFixed(2)}%</p>
+                <p><strong>Amount Made in Naira:</strong> ₦${formatNumberUnique(revenueNGN)}</p>
+                <p><strong>Net Profit:</strong> ₦${formatNumberUnique(netProfit)}</p>
+            `;
+        }
+    </script>
+
+
+
+
+
+
+
+
+    
     <script>
         function calculateSingleProfit() {
             let adSpend = parseFloat(document.getElementById('singleAdSpend').value);
