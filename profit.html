@@ -14,7 +14,11 @@
     <h2>Single Ad Account Calculator</h2>
     <label>Ad Spend (₦): </label>
     <input type="number" id="singleAdSpend" placeholder="Enter Ad Spend" /><br/>
-    <label>Impressions: </label>
+    <label>CPC (₦): </label>
+    <input type="number" id="singleCpc" placeholder="Enter CPC" /><br/>
+    <label>Total Clicks: </label>
+    <input type="number" id="singleClicks" placeholder="Enter Clicks" /><br/>
+    <label>Adsterra Impressions: </label>
     <input type="number" id="singleImpressions" placeholder="Enter impressions" /><br/>
     <label>CPM ($): </label>
     <input type="number" id="singleCpm" placeholder="Enter CPM" /><br/>
@@ -53,11 +57,17 @@
     <script>
         function calculateSingleProfit() {
             let adSpend = parseFloat(document.getElementById('singleAdSpend').value);
+            let cpc = parseFloat(document.getElementById('singleCpc').value);
+            let clicks = parseFloat(document.getElementById('singleClicks').value);
             let impressions = parseFloat(document.getElementById('singleImpressions').value);
             let cpm = parseFloat(document.getElementById('singleCpm').value);
             let exchangeRate = parseFloat(document.getElementById('singleExchangeRate').value);
             
-            if (isNaN(adSpend) || isNaN(impressions) || isNaN(cpm) || isNaN(exchangeRate)) {
+            if (isNaN(adSpend)) {
+                adSpend = cpc * clicks;
+            }
+            
+            if (isNaN(adSpend) || isNaN(impressions) || isNaN(cpm) || isNaN(exchangeRate) || isNaN(cpc) || isNaN(clicks)) {
                 document.getElementById('singleResult').innerHTML = "Please enter valid numbers in all fields.";
                 return;
             }
