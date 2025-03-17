@@ -12,7 +12,7 @@
     </style>
 </head>
 <body>
-    <h2>Single Ad Account Calculator.....</h2>
+    <h2>Single Ad Account Calculator</h2>
     <label>Ad Spend (₦): </label>
     <input type="number" id="singleAdSpend" placeholder="Enter Ad Spend" /><br/>
     <label>CPC (₦): </label>
@@ -82,49 +82,30 @@
             let cpm = parseFloat(document.getElementById('singleCpm').value);
             let exchangeRate = parseFloat(document.getElementById('singleExchangeRate').value);
             
-            if (isNaN(adSpend)) {
-                adSpend = cpc * clicks;
-            }
+            let costInDollars = adSpend / exchangeRate;
+            let expectedRevenue = (impressions / 1000) * cpm;
+            let profit = expectedRevenue - costInDollars;
+            let profitInNaira = profit * exchangeRate;
+            let profitPercentage = (profit / costInDollars) * 100;
             
-            let revenue = (impressions / 1000) * cpm;
-            let profit = (revenue * exchangeRate) - adSpend;
-            let profitPercentage = (profit / adSpend) * 100;
-            
-            document.getElementById('singleResult').innerHTML = `Profit: ₦${profit.toLocaleString()}`;
+            document.getElementById('singleResult').innerHTML = `Profit: $${profit.toFixed(2)} (₦${profitInNaira.toLocaleString()})`;
             document.getElementById('singleProfitPercentage').innerHTML = `Profit Percentage: ${profitPercentage.toFixed(2)}%`;
         }
-        
-        function calculateMultiProfit() {
-            let totalAdSpend = 0;
-            document.querySelectorAll(".cpc").forEach((cpc, index) => {
-                let clicks = document.querySelectorAll(".clicks")[index];
-                totalAdSpend += parseFloat(cpc.value) * parseFloat(clicks.value);
-            });
+
+        function calculateProfitMargin() {
+            let adSpend = parseFloat(document.getElementById('profitAdSpend').value) || 0;
+            let revenueUSD = parseFloat(document.getElementById('profitRevenue').value) || 0;
+            let exchangeRate = parseFloat(document.getElementById('profitExchangeRate').value) || 1;
             
-            let impressions = parseFloat(document.getElementById('impressions').value);
-            let cpm = parseFloat(document.getElementById('cpm').value);
-            let exchangeRate = parseFloat(document.getElementById('exchangeRate').value);
+            let revenueNGN = revenueUSD * exchangeRate;
+            let netProfit = revenueNGN - adSpend;
+            let profitPercentage = (adSpend > 0) ? (netProfit / adSpend) * 100 : 0;
             
-            let revenue = (impressions / 1000) * cpm;
-            let profit = (revenue * exchangeRate) - totalAdSpend;
-            let profitPercentage = (profit / totalAdSpend) * 100;
-            
-            document.getElementById('totalAdSpend').innerHTML = `Total Ad Spend: ₦${totalAdSpend.toLocaleString()}`;
-            document.getElementById('multiResult').innerHTML = `Profit: ₦${profit.toLocaleString()}`;
-            document.getElementById('multiProfitPercentage').innerHTML = `Profit Percentage: ${profitPercentage.toFixed(2)}%`;
-        }
-        
-        function addRow() {
-            let table = document.getElementById("adAccountsTable");
-            let row = table.insertRow();
-            row.innerHTML = `<td><input type='number' class='cpc' placeholder='Enter CPC' /></td>
-                             <td><input type='number' class='clicks' placeholder='Enter Clicks' /></td>
-                             <td><button onclick='removeRow(this)'>Remove</button></td>`;
-        }
-        
-        function removeRow(button) {
-            let row = button.parentNode.parentNode;
-            row.parentNode.removeChild(row);
+            document.getElementById('profitOutput').innerHTML = `
+                <p><strong>Profit Percentage:</strong> ${profitPercentage.toFixed(2)}%</p>
+                <p><strong>Amount Made in Naira:</strong> ₦${revenueNGN.toLocaleString()}</p>
+                <p><strong>Net Profit:</strong> ₦${netProfit.toLocaleString()}</p>
+            `;
         }
     </script>
 </body>
