@@ -1,99 +1,142 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Ad Profit Calculator</title>
+    <title>Ad Profit Calculators</title>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
         input { margin: 5px; padding: 8px; width: 200px; }
         button { padding: 10px; cursor: pointer; }
         table { margin: 10px auto; border-collapse: collapse; }
         th, td { padding: 10px; border: 1px solid black; }
+        hr { margin: 30px 0; }
     </style>
 </head>
 <body>
-    <h2>Ad Profit Calculator stress</h2>
-    <table id="adAccountsTable">
+    <!-- First Calculator -->
+    <h2>Ad Profit Calculator 1</h2>
+    <label>Ad Spend (₦): </label>
+    <input type="text" id="adSpend1" placeholder="Enter ad spend" oninput="formatNumber1(this)" /><br/>
+    
+    <label>CPC (₦): </label>
+    <input type="number" id="cpc1" placeholder="Enter CPC" /><br/>
+    
+    <label>Total Clicks: </label>
+    <input type="text" id="clicks1" placeholder="Enter clicks" oninput="formatNumber1(this)" /><br/>
+    
+    <label>Adsterra Impressions: </label>
+    <input type="number" id="impressions1" placeholder="Enter impressions" /><br/>
+    
+    <label>CPM ($): </label>
+    <input type="number" id="cpm1" placeholder="Enter CPM" /><br/>
+    
+    <label>Exchange Rate (₦ per $1): </label>
+    <input type="number" id="exchangeRate1" value="1500" /><br/>
+    
+    <button onclick="calculateProfit1()">Calculate Profit</button>
+    
+    <h3 id="result1"></h3>
+    
+    <hr>
+
+    <!-- Second Calculator -->
+    <h2>Ad Profit Calculator 2</h2>
+    <table id="adAccountsTable2">
         <tr>
             <th>CPC (₦)</th>
             <th>Clicks</th>
             <th>Action</th>
         </tr>
         <tr>
-            <td><input type="number" class="cpc" placeholder="Enter CPC" /></td>
-            <td><input type="text" class="clicks" placeholder="Enter Clicks" oninput="formatNumber(this)" /></td>
-            <td><button onclick="removeRow(this)">Remove</button></td>
+            <td><input type="number" class="cpc2" placeholder="Enter CPC" /></td>
+            <td><input type="text" class="clicks2" placeholder="Enter Clicks" oninput="formatNumber2(this)" /></td>
+            <td><button onclick="removeRow2(this)">Remove</button></td>
         </tr>
     </table>
-    <button onclick="addRow()">Add Another Ad Account</button><br/><br/>
+    <button onclick="addRow2()">Add Another Ad Account</button><br/><br/>
     
     <label>Adsterra Impressions: </label>
-    <input type="number" id="impressions" placeholder="Enter impressions" /><br/>
+    <input type="number" id="impressions2" placeholder="Enter impressions" /><br/>
     
     <label>CPM ($): </label>
-    <input type="number" id="cpm" placeholder="Enter CPM" /><br/>
+    <input type="number" id="cpm2" placeholder="Enter CPM" /><br/>
     
     <label>Exchange Rate (₦ per $1): </label>
-    <input type="number" id="exchangeRate" value="1500" /><br/>
+    <input type="number" id="exchangeRate2" value="1500" /><br/>
     
-    <button onclick="calculateProfit()">Calculate Profit</button>
+    <button onclick="calculateProfit2()">Calculate Profit</button>
     
-    <h3 id="totalAdSpend"></h3>
-    <h3 id="result"></h3>
+    <h3 id="totalAdSpend2"></h3>
+    <h3 id="result2"></h3>
     
     <script>
-        function formatNumber(input) {
+        function formatNumber1(input) {
             let value = input.value.replace(/,/g, "");
             input.value = Number(value).toLocaleString();
         }
         
-        function addRow() {
-            let table = document.getElementById("adAccountsTable");
-            let row = table.insertRow();
-            row.innerHTML = `<td><input type='number' class='cpc' placeholder='Enter CPC' /></td>
-                             <td><input type='text' class='clicks' placeholder='Enter Clicks' oninput='formatNumber(this)' /></td>
-                             <td><button onclick='removeRow(this)'>Remove</button></td>`;
+        function calculateProfit1() {
+            let adSpend = parseFloat(document.getElementById('adSpend1').value.replace(/,/g, ''));
+            let exchangeRate = parseFloat(document.getElementById('exchangeRate1').value);
+            let cpc = parseFloat(document.getElementById('cpc1').value);
+            let clicks = parseFloat(document.getElementById('clicks1').value.replace(/,/g, ''));
+            let impressions = parseFloat(document.getElementById('impressions1').value);
+            let cpm = parseFloat(document.getElementById('cpm1').value);
+            
+            if (isNaN(adSpend) || isNaN(exchangeRate) || isNaN(cpc) || isNaN(clicks) || isNaN(impressions) || isNaN(cpm)) {
+                document.getElementById('result1').innerHTML = "Please enter valid numbers in all fields.";
+                return;
+            }
+            
+            let costInDollars = adSpend / exchangeRate;
+            let expectedRevenue = (impressions / 1000) * cpm;
+            let profit = expectedRevenue - costInDollars;
+            let profitInNaira = profit * exchangeRate;
+            
+            document.getElementById('result1').innerHTML = `Profit: $${profit.toFixed(2)} (₦${profitInNaira.toLocaleString()})`;
         }
         
-        function removeRow(button) {
+        function formatNumber2(input) {
+            let value = input.value.replace(/,/g, "");
+            input.value = Number(value).toLocaleString();
+        }
+        
+        function addRow2() {
+            let table = document.getElementById("adAccountsTable2");
+            let row = table.insertRow();
+            row.innerHTML = `<td><input type='number' class='cpc2' placeholder='Enter CPC' /></td>
+                             <td><input type='text' class='clicks2' placeholder='Enter Clicks' oninput='formatNumber2(this)' /></td>
+                             <td><button onclick='removeRow2(this)'>Remove</button></td>`;
+        }
+        
+        function removeRow2(button) {
             let row = button.parentNode.parentNode;
             row.parentNode.removeChild(row);
         }
         
-        function calculateProfit() {
-            let exchangeRate = parseFloat(document.getElementById('exchangeRate').value);
-            let impressions = parseFloat(document.getElementById('impressions').value);
-            let cpm = parseFloat(document.getElementById('cpm').value);
+        function calculateProfit2() {
+            let exchangeRate = parseFloat(document.getElementById('exchangeRate2').value);
+            let impressions = parseFloat(document.getElementById('impressions2').value);
+            let cpm = parseFloat(document.getElementById('cpm2').value);
             
             let totalAdSpend = 0;
-            let totalClicks = 0;
             
-            document.querySelectorAll("#adAccountsTable tr").forEach((row, index) => {
-                if (index === 0) return; // Skip header row
-                let cpc = parseFloat(row.cells[0].querySelector("input").value);
-                let clicks = parseFloat(row.cells[1].querySelector("input").value.replace(/,/g, ''));
+            document.querySelectorAll(".cpc2").forEach((cpcInput, index) => {
+                let clicksInput = document.querySelectorAll(".clicks2")[index];
+                let cpc = parseFloat(cpcInput.value);
+                let clicks = parseFloat(clicksInput.value.replace(/,/g, ''));
                 
                 if (!isNaN(cpc) && !isNaN(clicks)) {
                     totalAdSpend += cpc * clicks;
-                    totalClicks += clicks;
                 }
             });
-            
-            if (isNaN(totalAdSpend) || isNaN(totalClicks) || isNaN(exchangeRate) || isNaN(impressions) || isNaN(cpm)) {
-                document.getElementById('result').innerHTML = "Please enter valid numbers in all fields.";
-                return;
-            }
             
             let costInDollars = totalAdSpend / exchangeRate;
             let expectedRevenue = (impressions / 1000) * cpm;
             let profit = expectedRevenue - costInDollars;
             let profitInNaira = profit * exchangeRate;
             
-            let resultText = profit >= 0 ? 
-                `Profit: $${profit.toFixed(2)} (₦${profitInNaira.toLocaleString()})` : 
-                `Loss: $${Math.abs(profit).toFixed(2)} (₦${Math.abs(profitInNaira).toLocaleString()})`;
-            
-            document.getElementById('totalAdSpend').innerHTML = `Total Ad Spend: ₦${totalAdSpend.toLocaleString()}`;
-            document.getElementById('result').innerHTML = resultText;
+            document.getElementById('totalAdSpend2').innerHTML = `Total Ad Spend: ₦${totalAdSpend.toLocaleString()}`;
+            document.getElementById('result2').innerHTML = `Profit: $${profit.toFixed(2)} (₦${profitInNaira.toLocaleString()})`;
         }
     </script>
 </body>
