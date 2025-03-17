@@ -3,109 +3,134 @@
 <head>
     <title>Ad Profit Calculators</title>
     <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            text-align: center; 
-            margin-top: 50px; 
-            background-color: #f4f4f4;
-        }
-        .container {
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        input { margin: 5px; padding: 8px; width: 200px; }
+        button { padding: 10px; cursor: pointer; }
+        table { margin: 10px auto; border-collapse: collapse; }
+        th, td { padding: 10px; border: 1px solid black; }
+        .container { 
             display: flex; 
-            justify-content: center; 
+            justify-content: space-around; 
             align-items: flex-start; 
-            gap: 50px; 
-            max-width: 90%;
-            margin: auto;
+            flex-wrap: wrap;
+            gap: 30px;
+            padding: 20px;
         }
-        .calculator {
-            width: 45%; 
-            background: white; 
-            padding: 20px; 
-            border-radius: 10px; 
+        .calculator { 
+            width: 30%; 
+            min-width: 320px;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        input, button {
-            margin: 5px; 
-            padding: 10px; 
-            width: 90%; 
-            border: 1px solid #ccc; 
-            border-radius: 5px;
-        }
-        button {
-            background-color: #28a745; 
-            color: white; 
-            border: none; 
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        button:hover {
-            background-color: #218838;
-        }
-        table { 
-            margin: 10px auto; 
-            border-collapse: collapse; 
-            width: 100%;
-        }
-        th, td { 
-            padding: 10px; 
-            border: 1px solid black; 
-            text-align: center;
-        }
-        .divider {
-            width: 3px; 
-            background: #ccc; 
-            height: 100%; 
-            border-radius: 5px;
-        }
+        .result { font-size: 18px; margin-top: 20px; }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- First Calculator -->
         <div class="calculator">
-            <h2>Single Ad Account Calculator..</h2>
+            <h2>Ad Profit Calculator 1</h2>
             <label>Ad Spend (₦): </label>
-            <input type="number" id="singleAdSpend" placeholder="Enter Ad Spend" /><br/>
+            <input type="text" id="adSpend1" placeholder="Enter ad spend" oninput="formatNumber1(this)" /><br/>
+            
             <label>CPC (₦): </label>
-            <input type="number" id="singleCpc" placeholder="Enter CPC" /><br/>
+            <input type="number" id="cpc1" placeholder="Enter CPC" /><br/>
+            
             <label>Total Clicks: </label>
-            <input type="number" id="singleClicks" placeholder="Enter Clicks" /><br/>
+            <input type="text" id="clicks1" placeholder="Enter clicks" oninput="formatNumber1(this)" /><br/>
+            
             <label>Adsterra Impressions: </label>
-            <input type="number" id="singleImpressions" placeholder="Enter impressions" /><br/>
+            <input type="number" id="impressions1" placeholder="Enter impressions" /><br/>
+            
             <label>CPM ($): </label>
-            <input type="number" id="singleCpm" placeholder="Enter CPM" /><br/>
+            <input type="number" id="cpm1" placeholder="Enter CPM" /><br/>
+            
             <label>Exchange Rate (₦ per $1): </label>
-            <input type="number" id="singleExchangeRate" value="1500" /><br/>
-            <button onclick="calculateSingleProfit()">Calculate Profit</button>
-            <h3 class="result" id="singleResult"></h3>
-            <h3 class="result" id="singleProfitPercentage"></h3>
+            <input type="number" id="exchangeRate1" value="1500" /><br/>
+            
+            <button onclick="calculateProfit1()">Calculate Profit</button>
+            
+            <h3 id="result1"></h3>
         </div>
         
+        <!-- Second Calculator -->
         <div class="calculator">
-            <h2>Multiple Ad Accounts Calculator</h2>
-            <table id="adAccountsTable">
+            <h2>Ad Profit Calculator 2</h2>
+            <table id="adAccountsTable2">
                 <tr>
                     <th>CPC (₦)</th>
                     <th>Clicks</th>
                     <th>Action</th>
                 </tr>
                 <tr>
-                    <td><input type="number" class="cpc" placeholder="Enter CPC" /></td>
-                    <td><input type="number" class="clicks" placeholder="Enter Clicks" /></td>
-                    <td><button onclick="removeRow(this)">Remove</button></td>
+                    <td><input type="number" class="cpc2" placeholder="Enter CPC" /></td>
+                    <td><input type="text" class="clicks2" placeholder="Enter Clicks" oninput="formatNumber2(this)" /></td>
+                    <td><button onclick="removeRow2(this)">Remove</button></td>
                 </tr>
             </table>
-            <button onclick="addRow()">Add Another Ad Account</button><br/><br/>
+            <button onclick="addRow2()">Add Another Ad Account</button><br/><br/>
+            
             <label>Adsterra Impressions: </label>
-            <input type="number" id="impressions" placeholder="Enter impressions" /><br/>
+            <input type="number" id="impressions2" placeholder="Enter impressions" /><br/>
+            
             <label>CPM ($): </label>
-            <input type="number" id="cpm" placeholder="Enter CPM" /><br/>
+            <input type="number" id="cpm2" placeholder="Enter CPM" /><br/>
+            
             <label>Exchange Rate (₦ per $1): </label>
-            <input type="number" id="exchangeRate" value="1500" /><br/>
-            <button onclick="calculateMultiProfit()">Calculate Profit</button>
-            <h3 class="result" id="totalAdSpend"></h3>
-            <h3 class="result" id="multiResult"></h3>
-            <h3 class="result" id="multiProfitPercentage"></h3>
+            <input type="number" id="exchangeRate2" value="1500" /><br/>
+            
+            <button onclick="calculateProfit2()">Calculate Profit</button>
+            
+            <h3 id="totalAdSpend2"></h3>
+            <h3 id="result2"></h3>
+        </div>
+        
+        <!-- Third Calculator -->
+        <div class="calculator">
+            <h2>Profit Margin Calculator</h2>
+            <label>Ad Spend (₦): </label>
+            <input type="text" id="adSpend3" placeholder="Enter amount in Naira"><br>
+            
+            <label>Revenue from Monetag ($): </label>
+            <input type="text" id="revenue3" placeholder="Enter revenue in USD"><br>
+            
+            <label>Exchange Rate (₦ per $): </label>
+            <input type="text" id="exchangeRate3" value="1500"><br>
+            
+            <button onclick="calculateProfit3()">Calculate</button>
+            
+            <div class="result" id="output3"></div>
         </div>
     </div>
+    
+    <script>
+        function formatNumber1(input) {
+            let value = input.value.replace(/,/g, "");
+            input.value = Number(value).toLocaleString();
+        }
+
+        function formatNumber2(input) {
+            let value = input.value.replace(/,/g, "");
+            input.value = Number(value).toLocaleString();
+        }
+
+        function calculateProfit3() {
+            let adSpend = parseFloat(document.getElementById('adSpend3').value.replace(/,/g, '')) || 0;
+            let revenueUSD = parseFloat(document.getElementById('revenue3').value.replace(/,/g, '')) || 0;
+            let exchangeRate = parseFloat(document.getElementById('exchangeRate3').value.replace(/,/g, '')) || 1500;
+            
+            let revenueNGN = revenueUSD * exchangeRate;
+            let netProfit = revenueNGN - adSpend;
+            let profitPercentage = (adSpend > 0) ? (netProfit / adSpend) * 100 : 0;
+            
+            document.getElementById('output3').innerHTML = `
+                <p><strong>Profit Percentage:</strong> ${profitPercentage.toFixed(2)}%</p>
+                <p><strong>Amount Made in Naira:</strong> ₦${revenueNGN.toLocaleString()}</p>
+                <p><strong>Net Profit:</strong> ₦${netProfit.toLocaleString()}</p>
+            `;
+        }
+    </script>
 </body>
 </html>
