@@ -12,7 +12,7 @@
     </style>
 </head>
 <body>
-    <h2>Single Ad Account Calculator</h2>
+    <h2>Single Ad Account Calculator....</h2>
     <label>Ad Spend (₦): </label>
     <input type="number" id="singleAdSpend" placeholder="Enter Ad Spend" /><br/>
     <label>CPC (₦): </label>
@@ -75,37 +75,44 @@
     
     <script>
         function calculateSingleProfit() {
-            let adSpend = parseFloat(document.getElementById('singleAdSpend').value);
-            let cpc = parseFloat(document.getElementById('singleCpc').value);
-            let clicks = parseFloat(document.getElementById('singleClicks').value);
-            let impressions = parseFloat(document.getElementById('singleImpressions').value);
-            let cpm = parseFloat(document.getElementById('singleCpm').value);
-            let exchangeRate = parseFloat(document.getElementById('singleExchangeRate').value);
+            let adSpend = parseFloat(document.getElementById('singleAdSpend').value) || 0;
+            let cpc = parseFloat(document.getElementById('singleCpc').value) || 0;
+            let clicks = parseFloat(document.getElementById('singleClicks').value) || 0;
+            let impressions = parseFloat(document.getElementById('singleImpressions').value) || 0;
+            let cpm = parseFloat(document.getElementById('singleCpm').value) || 0;
+            let exchangeRate = parseFloat(document.getElementById('singleExchangeRate').value) || 1;
             
             let costInDollars = adSpend / exchangeRate;
             let expectedRevenue = (impressions / 1000) * cpm;
             let profit = expectedRevenue - costInDollars;
             let profitInNaira = profit * exchangeRate;
-            let profitPercentage = (profit / costInDollars) * 100;
+            let profitPercentage = (costInDollars > 0) ? (profit / costInDollars) * 100 : 0;
             
             document.getElementById('singleResult').innerHTML = `Profit: $${profit.toFixed(2)} (₦${profitInNaira.toLocaleString()})`;
             document.getElementById('singleProfitPercentage').innerHTML = `Profit Percentage: ${profitPercentage.toFixed(2)}%`;
         }
 
-        function calculateProfitMargin() {
-            let adSpend = parseFloat(document.getElementById('profitAdSpend').value) || 0;
-            let revenueUSD = parseFloat(document.getElementById('profitRevenue').value) || 0;
-            let exchangeRate = parseFloat(document.getElementById('profitExchangeRate').value) || 1;
+        function calculateMultiProfit() {
+            let exchangeRate = parseFloat(document.getElementById('exchangeRate').value) || 1;
+            let impressions = parseFloat(document.getElementById('impressions').value) || 0;
+            let cpm = parseFloat(document.getElementById('cpm').value) || 0;
+            let totalAdSpend = 0;
             
-            let revenueNGN = revenueUSD * exchangeRate;
-            let netProfit = revenueNGN - adSpend;
-            let profitPercentage = (adSpend > 0) ? (netProfit / adSpend) * 100 : 0;
+            document.querySelectorAll("#adAccountsTable tr").forEach((row, index) => {
+                if (index === 0) return;
+                let cpc = parseFloat(row.cells[0].querySelector("input").value) || 0;
+                let clicks = parseFloat(row.cells[1].querySelector("input").value) || 0;
+                totalAdSpend += cpc * clicks;
+            });
             
-            document.getElementById('profitOutput').innerHTML = `
-                <p><strong>Profit Percentage:</strong> ${profitPercentage.toFixed(2)}%</p>
-                <p><strong>Amount Made in Naira:</strong> ₦${revenueNGN.toLocaleString()}</p>
-                <p><strong>Net Profit:</strong> ₦${netProfit.toLocaleString()}</p>
-            `;
+            let costInDollars = totalAdSpend / exchangeRate;
+            let expectedRevenue = (impressions / 1000) * cpm;
+            let profit = expectedRevenue - costInDollars;
+            let profitInNaira = profit * exchangeRate;
+            let profitPercentage = (costInDollars > 0) ? (profit / costInDollars) * 100 : 0;
+            
+            document.getElementById('multiResult').innerHTML = `Profit: $${profit.toFixed(2)} (₦${profitInNaira.toLocaleString()})`;
+            document.getElementById('multiProfitPercentage').innerHTML = `Profit Percentage: ${profitPercentage.toFixed(2)}%`;
         }
     </script>
 </body>
