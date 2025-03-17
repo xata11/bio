@@ -44,9 +44,9 @@
             let profitPercentage = (adSpend > 0) ? (netProfit / adSpend) * 100 : 0;
             
             document.getElementById('output').innerHTML = `
-                <p><strong>Net Profit:</strong> ₦${formatNumber(netProfit)}</p>
                 <p>Net Profit Margin: ${netProfitMargin.toFixed(2)}%</p>
                 <p>Profit Percentage: ${profitPercentage.toFixed(2)}%</p>
+                <p>Net Profit:<strong> ₦${formatNumber(netProfit)}</strong></p>
             `;
         }
     </script>
