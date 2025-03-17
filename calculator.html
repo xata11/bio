@@ -9,7 +9,7 @@
     </style>
 </head>
 <body>
-    <h2>Ad Profit Calculator rev</h2>
+    <h2>Ad Profit Calculator non</h2>
     <label>Ad Spend (₦): </label>
     <input type="text" id="adSpend" placeholder="Enter ad spend" oninput="formatNumber(this)" /><br/>
     
@@ -24,9 +24,6 @@
     
     <label>CPM ($): </label>
     <input type="number" id="cpm" placeholder="Enter CPM" /><br/>
-    
-    <label>Revenue Share (%): </label>
-    <input type="number" id="revShare" placeholder="Enter revenue share" value="100" /><br/>
     
     <label>Exchange Rate (₦ per $1): </label>
     <input type="number" id="exchangeRate" value="1500" /><br/>
@@ -49,15 +46,14 @@
             let clicks = parseFloat(document.getElementById('clicks').value.replace(/,/g, ''));
             let impressions = parseFloat(document.getElementById('impressions').value);
             let cpm = parseFloat(document.getElementById('cpm').value);
-            let revShare = parseFloat(document.getElementById('revShare').value) / 100;
             
-            if (isNaN(adSpend) || isNaN(exchangeRate) || isNaN(cpc) || isNaN(clicks) || isNaN(impressions) || isNaN(cpm) || isNaN(revShare)) {
+            if (isNaN(adSpend) || isNaN(exchangeRate) || isNaN(cpc) || isNaN(clicks) || isNaN(impressions) || isNaN(cpm)) {
                 document.getElementById('result').innerHTML = "Please enter valid numbers in all fields.";
                 return;
             }
             
             let costInDollars = adSpend / exchangeRate;
-            let expectedRevenue = (impressions / 1000) * cpm * revShare;
+            let expectedRevenue = (impressions / 1000) * cpm;
             let profit = expectedRevenue - costInDollars;
             let profitInNaira = profit * exchangeRate;
             
