@@ -32,8 +32,8 @@
             
             let revenueNGN = revenueUSD * exchangeRate;
             let netProfit = revenueNGN - adSpend;
-            let netProfitMargin = (netProfit / revenueNGN) * 100;
-            let profitPercentage = (netProfit / adSpend) * 100;
+            let netProfitMargin = (revenueNGN > 0) ? (netProfit / revenueNGN) * 100 : 0;
+            let profitPercentage = (adSpend > 0) ? (netProfit / adSpend) * 100 : 0;
             
             document.getElementById('output').innerHTML = `
                 <p><strong>Net Profit:</strong> ₦${netProfit.toFixed(2)}</p>
