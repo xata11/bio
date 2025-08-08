@@ -14,7 +14,7 @@
     document.getElementById('ua').textContent = navigator.userAgent;
 
     // Fetch IP and ISP using ipinfo.io (HTTPS-supported)
-    fetch('https://ipinfo.io/json?token=YOUR_TOKEN_HERE') // replace with your token
+    fetch('https://ipinfo.io/json?token=45f3bc53bb6966') // replace with your token
       .then(response => response.json())
       .then(data => {
         document.getElementById('ip').textContent = data.ip;
