@@ -6,22 +6,22 @@
 <body>
   <h2>Visitor Information</h2>
   <p><strong>IP Address:</strong> <span id="ip"></span></p>
-  <p><strong>ISP:</strong> <span id="isp"></span></p>
+  <p><strong>ISP (Org):</strong> <span id="isp"></span></p>
   <p><strong>User Agent:</strong> <span id="ua"></span></p>
 
   <script>
-    // Display browser's user agent
+    // Set User-Agent
     document.getElementById('ua').textContent = navigator.userAgent;
 
-    // Fetch IP and ISP data from IP-API.com
-    fetch('http://ip-api.com/json/')
-      .then(res => res.json())
+    // Fetch IP and ISP using ipinfo.io (HTTPS-supported)
+    fetch('https://ipinfo.io/json?token=YOUR_TOKEN_HERE') // replace with your token
+      .then(response => response.json())
       .then(data => {
-        document.getElementById('ip').textContent = data.query;
-        document.getElementById('isp').textContent = data.isp;
+        document.getElementById('ip').textContent = data.ip;
+        document.getElementById('isp').textContent = data.org; // this is the ISP/org name
       })
-      .catch(err => {
-        console.error('Error fetching IP data:', err);
+      .catch(error => {
+        console.error('Error fetching IP info:', error);
       });
   </script>
 </body>
