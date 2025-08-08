@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Visitor Info</title>
+</head>
+<body>
+  <h2>Visitor Information</h2>
+  <p><strong>IP Address:</strong> <span id="ip"></span></p>
+  <p><strong>ISP:</strong> <span id="isp"></span></p>
+  <p><strong>User Agent:</strong> <span id="ua"></span></p>
+
+  <script>
+    // Display browser's user agent
+    document.getElementById('ua').textContent = navigator.userAgent;
+
+    // Fetch IP and ISP data from IP-API.com
+    fetch('http://ip-api.com/json/')
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('ip').textContent = data.query;
+        document.getElementById('isp').textContent = data.isp;
+      })
+      .catch(err => {
+        console.error('Error fetching IP data:', err);
+      });
+  </script>
+</body>
+</html>
