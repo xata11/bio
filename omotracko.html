@@ -11,13 +11,14 @@
   <p><strong>City:</strong> <span id="city"></span></p>
   <p><strong>User Agent:</strong> <span id="ua"></span></p>
   <p><strong>Browser:</strong> <span id="browser"></span></p>
+  <p><strong>Device Type:</strong> <span id="device-type"></span></p>
+  <p><strong>Platform:</strong> <span id="platform"></span></p>
 
   <script>
-    // Set User-Agent
-    const uaString = navigator.userAgent;
-    document.getElementById('ua').textContent = uaString;
+    const ua = navigator.userAgent;
+    document.getElementById('ua').textContent = ua;
 
-    // Very basic browser name parser
+    // Detect browser name
     function getBrowserName(ua) {
       if (ua.includes("Chrome") && !ua.includes("Edg")) return "Chrome";
       if (ua.includes("Edg")) return "Microsoft Edge";
@@ -26,9 +27,31 @@
       if (ua.includes("Opera") || ua.includes("OPR")) return "Opera";
       return "Unknown";
     }
-    document.getElementById('browser').textContent = getBrowserName(uaString);
 
-    // Fetch IP, ISP, Country, City from ipinfo.io
+    // Detect device type (mobile or desktop)
+    function getDeviceType(ua) {
+      if (/Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(ua)) {
+        return "Mobile";
+      } else {
+        return "Desktop";
+      }
+    }
+
+    // Detect mobile platform
+    function getPlatform(ua) {
+      if (/Android/i.test(ua)) return "Android";
+      if (/iPhone|iPad|iPod/i.test(ua)) return "iOS";
+      if (/Series40|Nokia|Symbian|J2ME|MIDP|UCWEB/i.test(ua)) return "Java Phone";
+      if (/Windows/i.test(ua)) return "Windows";
+      if (/Macintosh|Mac OS/i.test(ua)) return "Mac";
+      return "Unknown";
+    }
+
+    document.getElementById('browser').textContent = getBrowserName(ua);
+    document.getElementById('device-type').textContent = getDeviceType(ua);
+    document.getElementById('platform').textContent = getPlatform(ua);
+
+    // Fetch IP, ISP, country, city
     fetch('https://ipinfo.io/json?token=45f3bc53bb6966') // Replace with your token
       .then(response => response.json())
       .then(data => {
