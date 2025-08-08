@@ -7,7 +7,6 @@
   <h2>Visitor Information</h2>
   <p><strong>IP Address:</strong> <span id="ip"></span></p>
   <p><strong>ISP (Org):</strong> <span id="isp"></span></p>
-  <p><strong>ASN Name:</strong> <span id="asn-name"></span></p>
   <p><strong>Country:</strong> <span id="country"></span></p>
   <p><strong>City:</strong> <span id="city"></span></p>
   <p><strong>User Agent:</strong> <span id="ua"></span></p>
@@ -53,21 +52,14 @@
     document.getElementById('device-type').textContent = getDeviceType(ua);
     document.getElementById('platform').textContent = getPlatform(ua);
 
-    // Fetch IP, ISP, Country, City, ASN name
-    fetch('https://ipinfo.io/json?token=45f3bc53bb6966') // Replace with your token
+    // Fetch IP info from ipapi.co (no token needed)
+    fetch('https://ipapi.co/json/')
       .then(response => response.json())
       .then(data => {
         document.getElementById('ip').textContent = data.ip;
         document.getElementById('isp').textContent = data.org;
-        document.getElementById('country').textContent = data.country;
+        document.getElementById('country').textContent = data.country_name;
         document.getElementById('city').textContent = data.city;
-
-        // Get ASN name if available
-        if (data.asn && data.asn.name) {
-          document.getElementById('asn-name').textContent = data.asn.name;
-        } else {
-          document.getElementById('asn-name').textContent = "N/A";
-        }
       })
       .catch(error => {
         console.error('Error fetching IP info:', error);
