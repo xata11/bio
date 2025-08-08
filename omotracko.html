@@ -52,14 +52,21 @@
     document.getElementById('device-type').textContent = getDeviceType(ua);
     document.getElementById('platform').textContent = getPlatform(ua);
 
-    // Fetch IP info from ipapi.co (no token needed)
-    fetch('https://ipapi.co/json/')
+    // Fetch IP, ISP, Country, City, ASN name
+    fetch('https://ipinfo.io/json?token=45f3bc53bb6966') // Replace with your token
       .then(response => response.json())
       .then(data => {
         document.getElementById('ip').textContent = data.ip;
         document.getElementById('isp').textContent = data.org;
-        document.getElementById('country').textContent = data.country_name;
+        document.getElementById('country').textContent = data.country;
         document.getElementById('city').textContent = data.city;
+
+        // Get ASN name if available
+        if (data.asn && data.asn.name) {
+          document.getElementById('asn-name').textContent = data.asn.name;
+        } else {
+          document.getElementById('asn-name').textContent = "N/A";
+        }
       })
       .catch(error => {
         console.error('Error fetching IP info:', error);
