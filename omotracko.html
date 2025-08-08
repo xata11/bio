@@ -7,38 +7,39 @@
   <h2>Visitor Information</h2>
   <p><strong>IP Address:</strong> <span id="ip"></span></p>
   <p><strong>ISP (Org):</strong> <span id="isp"></span></p>
+  <p><strong>Country:</strong> <span id="country"></span></p>
+  <p><strong>City:</strong> <span id="city"></span></p>
   <p><strong>User Agent:</strong> <span id="ua"></span></p>
+  <p><strong>Browser:</strong> <span id="browser"></span></p>
 
   <script>
     // Set User-Agent
-    document.getElementById('ua').textContent = navigator.userAgent;
+    const uaString = navigator.userAgent;
+    document.getElementById('ua').textContent = uaString;
 
-    // Fetch IP and ISP using ipinfo.io (HTTPS-supported)
-    fetch('https://ipinfo.io/json?token=45f3bc53bb6966') // replace with your token
+    // Very basic browser name parser
+    function getBrowserName(ua) {
+      if (ua.includes("Chrome") && !ua.includes("Edg")) return "Chrome";
+      if (ua.includes("Edg")) return "Microsoft Edge";
+      if (ua.includes("Firefox")) return "Firefox";
+      if (ua.includes("Safari") && !ua.includes("Chrome")) return "Safari";
+      if (ua.includes("Opera") || ua.includes("OPR")) return "Opera";
+      return "Unknown";
+    }
+    document.getElementById('browser').textContent = getBrowserName(uaString);
+
+    // Fetch IP, ISP, Country, City from ipinfo.io
+    fetch('https://ipinfo.io/json?token=YOUR_TOKEN_HERE') // Replace with your token
       .then(response => response.json())
       .then(data => {
         document.getElementById('ip').textContent = data.ip;
-        document.getElementById('isp').textContent = data.org; // this is the ISP/org name
+        document.getElementById('isp').textContent = data.org;
+        document.getElementById('country').textContent = data.country;
+        document.getElementById('city').textContent = data.city;
       })
       .catch(error => {
         console.error('Error fetching IP info:', error);
       });
   </script>
-
-
-<hr>
-
-
-  <script>
-  fetch('https://ipapi.co/json/')
-    .then(res => res.json())
-    .then(data => {
-      document.getElementById('ip').textContent = data.ip;
-      document.getElementById('isp').textContent = data.org;
-    });
-</script>
-
-
-  
 </body>
 </html>
