@@ -24,5 +24,21 @@
         console.error('Error fetching IP info:', error);
       });
   </script>
+
+
+<hr>
+
+
+  <script>
+  fetch('https://ipapi.co/json/')
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById('ip').textContent = data.ip;
+      document.getElementById('isp').textContent = data.org;
+    });
+</script>
+
+
+  
 </body>
 </html>
