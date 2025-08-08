@@ -29,7 +29,7 @@
     document.getElementById('browser').textContent = getBrowserName(uaString);
 
     // Fetch IP, ISP, Country, City from ipinfo.io
-    fetch('https://ipinfo.io/json?token=YOUR_TOKEN_HERE') // Replace with your token
+    fetch('https://ipinfo.io/json?token=45f3bc53bb6966') // Replace with your token
       .then(response => response.json())
       .then(data => {
         document.getElementById('ip').textContent = data.ip;
